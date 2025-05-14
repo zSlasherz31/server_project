@@ -1,0 +1,181 @@
+// Определение стандартных значений
+$gradient: linear-gradient(-26.5deg, #565872, #31355b); // Фоновый градиент
+$container-bgcolor: #212529; // Фоновый цвет контейнеров
+$container-fgcolor: #dee2e6; // Цвет текста контейнеров
+$container-shadow-color: rgba(0, 0, 0, 0.2); // Цвет тени вокруг контейнеров
+$container-input-bdcolor: #495057; // Цвет рамок полей в контейнерах
+$container-input-bdcolor-focus: #82B2F7; // Цвет рамок полей при фокусе
+$container-input-shadow-color-focus: rgba(92, 157, 237, 0.5); // Цвет тени поля при фокусе
+$container-submit-color: #31355b; // Цвет кнопок контейнеров
+$container-submit-color-hover: #565872; // Цвет кнопок при наведении
+$container-table-bdcolor: $container-input-bdcolor; // Цвет рамок таблиц в контейнерах
+$container-tr-color-hover: #2B3136; // Цвет строк таблиц контейнеров при наведении
+
+$message-success-bgcolor: #e6f4ea; // Фоновый цвет успешного сообщения
+$message-success-fgcolor: #237a3f; // Цвет текста успешного сообщения
+$message-success-bdcolor: #a5d6b2; // Цвет рамки успешного сообщения
+
+$message-error-bgcolor: #fcebea; // Фоновый цвет сообщения об ошибке
+$message-error-fgcolor: #b91c1c; // Цвет текста сообщения об ошибке
+$message-error-bdcolor: #f5c2c0; // Цвет рамки сообщения об ошибке
+
+* {
+  box-sizing: border-box; // Устанавливает модель расчета размеров
+                          // элементов так, чтобы padding и border
+                          // включались в общую ширину и высоту
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  // Устанавливает шрифт для всей страницы
+  background: $gradient;
+  display: flex; // Включает флексбокс для выравнивания содержимого
+  flex-direction: column; // Расположение дочерних элементов вертикально 
+  align-items: center; // Центрирует содержимое по вертикали
+  justify-content: center; // Центрирует содержимое по горизонтали
+  height: 100vh; // Высота body — вся высота окна браузера
+  margin: 0; // Убирает внешние отступы
+}
+
+h2 {
+  text-align: center; // Выравнивание заголовка по центру
+  margin-bottom: 1.5rem; // Отступ снизу
+  color: $container-fgcolor;
+}
+
+form {
+  display: flex; // Используем флекс-контейнер
+  flex-direction: column;
+  // Расположение дочерних элементов вертикально
+}
+
+label {
+  margin-bottom: 0.6rem; // Отступ снизу от надписи
+  font-weight: 600; // Полужирное начертание
+  color: $container-fgcolor;
+}
+
+table {
+  color: $container-fgcolor;
+  text-align: center;
+  // Выравнивание содержимого ячеек по центру
+  width: 100%; // Ширина по умолчанию — 100%
+}
+
+table, th, td {
+  border: 1px solid $container-table-bdcolor;
+  border-collapse: collapse;
+  // Сливаем границы таблицы в единую границу
+}
+
+tr:hover {
+  background-color: $container-tr-color-hover;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  background-color: $container-bgcolor;
+  color: $container-fgcolor;
+  padding: 0.75rem 1rem; // Внутренние отступы сверху/снизу и по бокам
+  margin-bottom: 1.2rem; // Отступ снизу между полями
+  border: 1px solid $container-input-bdcolor;
+  border-radius: 10px; // Скруглённые углы полей
+  font-size: 1rem; // Размер шрифта
+  transition: 0.3s; // Плавное изменение при фокусе
+}
+
+input[type=number] {
+  appearance: textfield; // Скрываем стрелки выбора значения поля 
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  border-color: $container-input-bdcolor-focus;
+  // Изменение цвета рамки при фокусе
+  outline: none; // Убираем стандартную обводку браузера
+  box-shadow: 0 0 5px $container-input-shadow-color-focus;
+  // Светящаяся рамка вокруг поля
+}
+
+input[type="submit"] {
+  background-color: $container-submit-color;
+  color: $container-fgcolor;
+  padding: 0.75rem; // Внутренние отступы
+  border: none; // Без рамки
+  border-radius: 10px; // Скруглённые углы
+  font-size: 1rem; // Размер текста
+  cursor: pointer; // Изменение курсора на "руку"
+  transition: background-color 0.3s ease;
+  // Плавное изменение цвета фона
+}
+
+input[type="submit"]:hover {
+  background-color: $container-submit-color-hover;
+}
+
+// Общий контейнер
+.container {
+  background-color: $container-bgcolor;
+  padding: 2rem 3rem;
+  // Внутренние отступы: 2rem сверху/снизу, 3rem слева/справа
+  margin-bottom: 1.5rem; // Нижний отступ
+  border-radius: 20px; // Скруглённые углы 
+  box-shadow: 8px 8px 5px $container-shadow-color;
+  // Тень для создания объема
+  width: 100%; // Ширина по умолчанию — 100%
+  max-width: 400px; // Максимальная ширина — 400px
+  animation: container-fadeIn 0.5s ease-in-out; // Анимация появления
+}
+
+// Общий контейнер для сообщений
+.message {
+  padding: 1.7rem 2.1rem; // Внутренние отступы
+  margin: 1.5rem auto;
+  // Вертикальные отступы и автоматическое центрирование
+  border-radius: 10px; // Скруглённые углы
+  max-width: 400px; // Максимальная ширина
+  font-size: 1.7rem; // Размер текста
+  font-weight: 700; // Жирное начертание
+  text-align: center; // Центрирование текста
+  box-shadow: 8px 8px 5px $container-shadow-color; // Тень вокруг
+  animation: message-fadeIn 0.5s ease-in-out; // Анимация появления
+}
+
+// Успешное сообщение
+.message-success {
+  background-color: $message-success-bgcolor;
+  color: $message-success-fgcolor;
+  border: 1px solid $message-success-bdcolor;
+}
+
+// Сообщение об ошибке
+.message-error {
+  background-color: $message-error-bgcolor;
+  color: $message-error-fgcolor;
+  border: 1px solid $message-error-bdcolor;
+}
+
+// Переиспользуемый код для анимаций появления
+@mixin frames($y) {
+  from {
+    opacity: 0; // Полная прозрачность
+    transform: translateY($y); // Подъём вверх/опускание вниз
+  } 
+  to {
+    opacity: 1; // Полная видимость
+    transform: translateY(0); // Возврат к исходной позиции
+  }
+}
+
+// Анимация появления для общих контейнеров
+@keyframes container-fadeIn {
+  @include frames(8px);
+}
+
+// Анимация появления для сообщений
+@keyframes message-fadeIn {
+  @include frames(-8px);
+}
+

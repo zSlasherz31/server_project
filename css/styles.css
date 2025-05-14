@@ -1,0 +1,121 @@
+* {
+  box-sizing: border-box; }
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(-26.5deg, #565872, #31355b);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0; }
+
+h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #dee2e6; }
+
+form {
+  display: flex;
+  flex-direction: column; }
+
+label {
+  margin-bottom: 0.6rem;
+  font-weight: 600;
+  color: #dee2e6; }
+
+table {
+  color: #dee2e6;
+  text-align: center;
+  width: 100%; }
+
+table, th, td {
+  border: 1px solid #495057;
+  border-collapse: collapse; }
+
+tr:hover {
+  background-color: #2B3136; }
+
+input[type="text"],
+input[type="password"],
+input[type="number"] {
+  background-color: #212529;
+  color: #dee2e6;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #495057;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: 0.3s; }
+
+input[type=number] {
+  appearance: textfield; }
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus {
+  border-color: #82B2F7;
+  outline: none;
+  box-shadow: 0 0 5px rgba(92, 157, 237, 0.5); }
+
+input[type="submit"] {
+  background-color: #31355b;
+  color: #dee2e6;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease; }
+
+input[type="submit"]:hover {
+  background-color: #565872; }
+
+.container {
+  background-color: #212529;
+  padding: 2rem 3rem;
+  margin-bottom: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  animation: container-fadeIn 0.5s ease-in-out; }
+
+.message {
+  padding: 1.7rem 2.1rem;
+  margin: 1.5rem auto;
+  border-radius: 10px;
+  max-width: 400px;
+  font-size: 1.7rem;
+  font-weight: 700;
+  text-align: center;
+  box-shadow: 8px 8px 5px rgba(0, 0, 0, 0.2);
+  animation: message-fadeIn 0.5s ease-in-out; }
+
+.message-success {
+  background-color: #e6f4ea;
+  color: #237a3f;
+  border: 1px solid #a5d6b2; }
+
+.message-error {
+  background-color: #fcebea;
+  color: #b91c1c;
+  border: 1px solid #f5c2c0; }
+
+@keyframes container-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+@keyframes message-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px); }
+  to {
+    opacity: 1;
+    transform: translateY(0); } }
+
+/*# sourceMappingURL=styles.css.map */

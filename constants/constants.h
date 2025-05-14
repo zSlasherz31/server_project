@@ -1,0 +1,32 @@
+#ifndef CONSTANTS_H
+#define CONSTANTS_H
+
+// Базовые пути
+#define DIR_TEMPLATES "./templates/"
+#define DIR_CSS       "./css/"
+#define DIR_LOGS      "./server/logs/"
+
+// Пути к HTML-шаблонам
+#define PATH_LOGIN_HTML    DIR_TEMPLATES "login.html"
+#define PATH_SUCCESS_HTML  DIR_TEMPLATES "success.html"
+#define PATH_ERROR_HTML    DIR_TEMPLATES "error.html"
+#define PATH_SOLUTION_HTML DIR_TEMPLATES "solution.html"
+
+// Путь к CSS
+#define PATH_CSS_STYLES DIR_CSS "styles.css"
+
+// Путь к файлу логов
+#define PATH_LOG_FILE DIR_LOGS "log.log"
+
+// Content-Type заголовки
+#define CONTENT_TYPE_HTML "Content-Type: text/html; charset=utf-8\r\n"
+#define CONTENT_TYPE_CSS  "Content-Type: text/css; charset=utf-8\r\n"
+
+// Константы необходимые для форматирования файла решения
+// (жесткая связь с solution.html)
+#define BYTES_PER_NUMBER 10
+#define NUMBER_COUNT 18
+#define CONVERSION_SPECIFICATION_LENGTH 2 // < BYTES_PER_NUMBER
+
+#endif
+

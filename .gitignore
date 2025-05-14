@@ -1,3 +1,5 @@
 server/logs/*
 server/*.out
 run.sh
+.sass-cache/
+css/*.map
