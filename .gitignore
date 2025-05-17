@@ -1,5 +1,8 @@
 server/logs/*
 server/*.out
 run.sh
+
+# Откуда был запущен sass, там и будет
+# созадана директория .sass-cache/
 .sass-cache/
-css/*.map
+view/css/*.map

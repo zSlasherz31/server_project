@@ -1,7 +1,7 @@
 #ifndef OUTPUT_H
 #define OUTPUT_H
 
-#include "../constants/constants.h"
+#include "../constants.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <malloc.h> // Работает только на Linux/glibc

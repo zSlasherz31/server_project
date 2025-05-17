@@ -1,4 +1,4 @@
-#include "cache.h"
+#include "../../include/cache/cache.h"
 
 void init_cache(CachedFile* cache,
                      size_t cache_size) {
@@ -36,11 +36,16 @@ char* cache_file(CachedFile* cache,
     }
     else {
       result = func_read(filename);
-      size_t filename_size = strlen(filename) + 1;
-      // Кешируем считанный файл
-      cache[file_num].filename = memcpy((char*)malloc(filename_size),
-                                               filename, filename_size);  
-      cache[file_num].file = result;
+      if (result) {
+        size_t filename_size = strlen(filename) + 1;
+        // Кешируем считанный файл
+        cache[file_num].filename = memcpy((char*)malloc(filename_size),
+                                          filename, filename_size);  
+        cache[file_num].file = result;
+      }
+      else
+        // Если файл не считался — заканчиваем перебор кеша
+        file_num = cache_size;
     }
 
     ++file_num;

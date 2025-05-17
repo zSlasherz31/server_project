@@ -1,8 +1,13 @@
 CC       = gcc
 CFLAGS   = -Wall -Wextra
-SRCS     = main.c mongoose/mongoose.c input/input.c output/output.c cache/cache.c
+
+SRC_DIR	 = ./src
 SRV_DIR  = ./server
 LOGS_DIR = $(SRV_DIR)/logs
+
+SRCS     = $(SRC_DIR)/main.c libs/mongoose/mongoose.c $(SRC_DIR)/input/input.c \
+$(SRC_DIR)/output/output.c $(SRC_DIR)/cache/cache.c
+
 OUT      = $(SRV_DIR)/server.out
 
 $(OUT): $(SRCS)

@@ -1,4 +1,4 @@
-#include "output.h"
+#include "../../include/output/output.h"
 
 char* format_response(char* response,
                        int* va) {

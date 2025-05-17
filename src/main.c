@@ -1,12 +1,12 @@
-#include "mongoose/mongoose.h"
+#include "../libs/mongoose/mongoose.h"
 // Подключение библиотеки Mongoose для реализации встроенного HTTP-сервера
-#include "input/input.h"
+#include "../include/input/input.h"
 // Подключение собственной функции read_file() для чтения файлов
-#include "output/output.h"
+#include "../include/output/output.h"
 // Подключение собственных функций вывода
-#include "constants/constants.h"
+#include "../include/constants.h"
 // Подключение заголовка с определениями различных констант
-#include "cache/cache.h"
+#include "../include/cache/cache.h"
 // Подключение функций для кеширования файлов
 #include <stdlib.h>
 #include <signal.h>
@@ -218,7 +218,7 @@ static void main_fun(struct mg_connection* c,
 int main() {
   const char *server_address = "http://localhost:8080";
   // Адрес, по которому будет запущен сервер
-  
+
   struct mg_mgr mgr; // Контекст менеджера соединений
   
   // Назначаем сигналы, на которые будет реагировать хендлер

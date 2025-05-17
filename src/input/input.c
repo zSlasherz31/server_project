@@ -1,4 +1,4 @@
-#include "input.h"
+#include "../../include/input/input.h"
 
 char* read_file(const char* filename) {
   FILE *file = fopen(filename, "rb");

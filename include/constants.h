@@ -2,9 +2,12 @@
 #define CONSTANTS_H
 
 // Базовые пути
-#define DIR_TEMPLATES "./templates/"
-#define DIR_CSS       "./css/"
 #define DIR_LOGS      "./server/logs/"
+
+#define DIR_VIEW      "./view/"
+
+#define DIR_TEMPLATES DIR_VIEW "templates/"
+#define DIR_CSS       DIR_VIEW "css/"
 
 // Количество HTML-шаблонов
 #define TEMPLATES_NUMBER 4
