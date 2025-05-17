@@ -64,7 +64,7 @@ static int process_request(struct mg_connection *c,
   // Ошибка по умолчанию — файл не найден
   
   // Проверка: если пришёл POST-запрос на /login
-  if (!mg_strcmp(hm->uri, mg_str("/login")) &&
+  if (!mg_strcmp(hm->uri, mg_str(URI_LOGIN)) &&
       !mg_strcasecmp(hm->method, mg_str("POST"))) {
 
     const char *expected_user = getenv("LOGIN_USER");
@@ -122,7 +122,7 @@ static int process_request(struct mg_connection *c,
     }
   }
   // Проверка: если пришёл POST-запрос на /solution
-  else if (!mg_strcmp(hm->uri, mg_str("/solution")) &&
+  else if (!mg_strcmp(hm->uri, mg_str(URI_SOLUTION)) &&
            !mg_strcasecmp(hm->method, mg_str("POST"))) {
     
     // Читаем неформатированный (сырой) файл решения
@@ -157,7 +157,7 @@ static int process_request(struct mg_connection *c,
     }
   }
   // Если запрашивается файл стилей
-  else if (!mg_strcmp(hm->uri, mg_str("/styles.css"))) {
+  else if (!mg_strcmp(hm->uri, mg_str(URI_STYLES_CSS))) {
     
     response = cache_file(cache, SENT_FILES_NUMBER,
                           PATH_CSS_STYLES, read_file); // Читаем файл CSS
@@ -216,7 +216,7 @@ static void main_fun(struct mg_connection* c,
 
 // Точка входа в программу
 int main() {
-  const char *server_address = "http://localhost:8080";
+  const char *server_address = SERVER_ADDRESS;
   // Адрес, по которому будет запущен сервер
 
   struct mg_mgr mgr; // Контекст менеджера соединений

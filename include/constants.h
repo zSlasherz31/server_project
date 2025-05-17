@@ -1,6 +1,17 @@
 #ifndef CONSTANTS_H
 #define CONSTANTS_H
 
+// Адрес сервера
+#define PORT           ":8080"
+#define SERVER_ADDRESS "http://localhost" PORT
+
+// Определение обрабатываемых URI
+#define URI_ROOT "/"
+
+#define URI_LOGIN      URI_ROOT "login"
+#define URI_SOLUTION   URI_ROOT "solution"
+#define URI_STYLES_CSS URI_ROOT "styles.css"
+
 // Базовые пути
 #define DIR_LOGS      "./server/logs/"
 
