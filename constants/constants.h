@@ -31,6 +31,11 @@
 #define CONTENT_TYPE_HTML "Content-Type: text/html; charset=utf-8\r\n"
 #define CONTENT_TYPE_CSS  "Content-Type: text/css; charset=utf-8\r\n"
 
+// Коды состояния HTTP
+#define HTTP_STATUS_CODE_OK 200
+#define HTTP_STATUS_CODE_UNAUTHORIZED 401
+#define HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR 500
+
 // Константы необходимые для форматирования файла решения
 // (жесткая связь с solution.html)
 #define BYTES_PER_NUMBER 10

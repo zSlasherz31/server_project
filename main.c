@@ -10,6 +10,7 @@
 // Подключение функций для кеширования файлов
 #include <stdlib.h>
 #include <signal.h>
+#include <unistd.h> // Работает только на Linux
 
 // Определение кодов ошибок для обработки различных ситуаций
 enum {
@@ -51,7 +52,7 @@ void fill_va(int* va, size_t size_va, int number) {
 static int process_request(struct mg_connection *c,
                            struct mg_http_message *hm) {
   
-  int status_code          = 500;
+  int status_code          = HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR;
   // Код состояния по умолчанию — внутренняя ошибка сервера
   const char *ctype        = "";
   // Тип содержимого (Content-Type) будет выбран позже
@@ -91,7 +92,7 @@ static int process_request(struct mg_connection *c,
         response = cache_file(cache, SENT_FILES_NUMBER,
                               PATH_SUCCESS_HTML, read_file);
         // Если всё верно — читаем HTML с приветствием
-        status_code = 200;
+        status_code = HTTP_STATUS_CODE_OK;
         error_code  = ERR_OK;
 
       }
@@ -101,7 +102,7 @@ static int process_request(struct mg_connection *c,
         response = cache_file(cache, SENT_FILES_NUMBER,
                               PATH_ERROR_HTML, read_file);
         // Иначе — HTML с ошибкой
-        status_code = 401;
+        status_code = HTTP_STATUS_CODE_UNAUTHORIZED;
         error_code  = ERR_INVALID_CREDENTIALS;
       
       }
@@ -113,7 +114,7 @@ static int process_request(struct mg_connection *c,
       else {
 
         // Иначе — ответ по умолчанию
-        status_code = 500;
+        status_code = HTTP_STATUS_CODE_INTERNAL_SERVER_ERROR;
         ctype       = "";
         error_code  = ERR_FILE_NOT_FOUND;
       
@@ -149,7 +150,7 @@ static int process_request(struct mg_connection *c,
       formatted_response = format_response(response, va);
       // Формируем отформатированный файл решения
       if (response) {
-        status_code = 200;
+        status_code = HTTP_STATUS_CODE_OK;
         ctype       = CONTENT_TYPE_HTML;
         error_code  = ERR_OK;
       }
@@ -161,7 +162,7 @@ static int process_request(struct mg_connection *c,
     response = cache_file(cache, SENT_FILES_NUMBER,
                           PATH_CSS_STYLES, read_file); // Читаем файл CSS
     if (response) {
-      status_code = 200;
+      status_code = HTTP_STATUS_CODE_OK;
       ctype       = CONTENT_TYPE_CSS;
       error_code  = ERR_OK;
     }
@@ -173,7 +174,7 @@ static int process_request(struct mg_connection *c,
                           PATH_LOGIN_HTML, read_file);
     // Загружаем страницу логина
     if (response) {
-      status_code = 200;
+      status_code = HTTP_STATUS_CODE_OK;
       ctype       = CONTENT_TYPE_HTML;
       error_code  = ERR_OK;
     }
@@ -234,8 +235,11 @@ int main() {
   mg_http_listen(&mgr, server_address, main_fun, NULL);
   // Запуск сервера на указанном адресе и обработчиком событий
   
-  output_to_stdout("Сервер запущен на %s\n", server_address);
+  output_to_stdout("Сервер запущен на %s\n\n", server_address);
   // Вывод сообщения в консоль
+  
+  MG_INFO(("\nPID процесса: %d\n", getpid()));
+  // Вывод PID процесса в стандартный поток вывода
 
   while (signal_status == 0) mg_mgr_poll(&mgr, 1000);
   // Основной цикл обработки событий с интервалом 1000 мс

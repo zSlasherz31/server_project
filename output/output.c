@@ -1,7 +1,7 @@
 #include "output.h"
 
 char* format_response(char* response,
-                        int va[]) {
+                       int* va) {
   size_t additional_bytes = NUMBER_COUNT * (BYTES_PER_NUMBER  -
                             CONVERSION_SPECIFICATION_LENGTH);
   char *formatted = (char*)malloc(malloc_usable_size(response)
