@@ -1,25 +1,19 @@
 # Название проекта
 Простое UI-веб-приложение на языке Си с использованием библиотеки Mongoose.
 
-## Требования
-Перед запуском веб-приложения необходимо создать в корне проекта shell
-скрипт run.sh со следующим содержимым, указав желаемый пароль для админа:
+## Использование
 ```
-LOGIN_USER=admin LOGIN_PASS=foobar1234 ./server/server.out
+git clone https://github.com/zSlasherz31/server_project.git
+cd server_project
+echo "LOGIN_USER=admin LOGIN_PASS=1234 ./server/server.out" > run.sh
+make run
 ```
 
 Опционально можно установить Sass через пакетный менеджер вашей ОС для
 более удобной работы с CSS (готовый CSS уже скомпилирован для Вас).
 
-## Использование
-```
-git clone https://github.com/zSlasherz31/server_project.git
-cd server_project
-make run
-```
-
 ## Make цели
-Собрать проект: ``` make ```
+Собрать проект: ```make```
 
 | Цель | Описание |
 | --- | ---- |
