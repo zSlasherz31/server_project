@@ -10,8 +10,11 @@ $(SRC_DIR)/output/output.c $(SRC_DIR)/cache/cache.c
 
 OUT      = $(SRV_DIR)/server.out
 
-$(OUT): $(SRCS)
+$(OUT): $(SRV_DIR) $(LOGS_DIR) $(SRCS)
 	$(CC) $(CFLAGS) $(SRCS) -o $(OUT)
+
+$(SRV_DIR) $(LOGS_DIR):
+	mkdir -p $@
 
 run: $(OUT)
 	bash run.sh
