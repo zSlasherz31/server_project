@@ -6,6 +6,15 @@
 #define DIR_CSS       "./css/"
 #define DIR_LOGS      "./server/logs/"
 
+// Количество HTML-шаблонов
+#define TEMPLATES_NUMBER 4
+
+// Количество CSS файлов
+#define CSS_NUMBER 1
+
+// Общее количество файлов, отправляемых клиенту
+#define SENT_FILES_NUMBER TEMPLATES_NUMBER + CSS_NUMBER
+
 // Пути к HTML-шаблонам
 #define PATH_LOGIN_HTML    DIR_TEMPLATES "login.html"
 #define PATH_SUCCESS_HTML  DIR_TEMPLATES "success.html"

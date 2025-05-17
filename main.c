@@ -5,7 +5,9 @@
 #include "output/output.h"
 // Подключение собственных функций вывода
 #include "constants/constants.h"
-// Подключение заголовка с определениями путей к HTML/CSS/LOGS и Content-Type
+// Подключение заголовка с определениями различных констант
+#include "cache/cache.h"
+// Подключение функций для кеширования файлов
 #include <stdlib.h>
 #include <signal.h>
 
@@ -24,13 +26,17 @@ enum {
 // Определение глобальной переменной для хранения номера сигнала
 volatile sig_atomic_t signal_status = 0;
 
+// Объявление массива для хранения указателей на данные
+// кешируемых файлов (имя файла и его содержимое)
+CachedFile cache[SENT_FILES_NUMBER];
+
 // Хендлер для обработки сигнала
 void signal_handler(int signal) {
   signal_status = signal;
 }
 
 // Вспомогательная функция заполнения вариадических аргументов
-void fill_va(int va[], size_t size_va, int number) {
+void fill_va(int* va, size_t size_va, int number) {
   size_t arg = 0, mul = 1;
   while (arg < size_va) {
     va[arg] = number;
@@ -45,13 +51,15 @@ void fill_va(int va[], size_t size_va, int number) {
 static int process_request(struct mg_connection *c,
                            struct mg_http_message *hm) {
   
-  int status_code   = 500;
+  int status_code          = 500;
   // Код состояния по умолчанию — внутренняя ошибка сервера
-  const char *ctype = "";
+  const char *ctype        = "";
   // Тип содержимого (Content-Type) будет выбран позже
-  char *response    = NULL;
+  char *response           = NULL;
   // Ответ, который будет отправлен клиенту
-  int error_code    = ERR_FILE_NOT_FOUND;
+  char *formatted_response = NULL;
+  // Отформатированный ответ решения, который будет отправлен клиенту
+  int error_code           = ERR_FILE_NOT_FOUND;
   // Ошибка по умолчанию — файл не найден
   
   // Проверка: если пришёл POST-запрос на /login
@@ -80,7 +88,8 @@ static int process_request(struct mg_connection *c,
       if (!strcmp(username, expected_user) &&
           !strcmp(password, expected_pass)) {
         
-        response = read_file(PATH_SUCCESS_HTML);
+        response = cache_file(cache, SENT_FILES_NUMBER,
+                              PATH_SUCCESS_HTML, read_file);
         // Если всё верно — читаем HTML с приветствием
         status_code = 200;
         error_code  = ERR_OK;
@@ -89,7 +98,8 @@ static int process_request(struct mg_connection *c,
 
       else {
 
-        response = read_file(PATH_ERROR_HTML);
+        response = cache_file(cache, SENT_FILES_NUMBER,
+                              PATH_ERROR_HTML, read_file);
         // Иначе — HTML с ошибкой
         status_code = 401;
         error_code  = ERR_INVALID_CREDENTIALS;
@@ -115,7 +125,8 @@ static int process_request(struct mg_connection *c,
            !mg_strcasecmp(hm->method, mg_str("POST"))) {
     
     // Читаем неформатированный (сырой) файл решения
-    response = read_file(PATH_SOLUTION_HTML);
+    response = cache_file(cache, SENT_FILES_NUMBER,
+                          PATH_SOLUTION_HTML, read_file);
     
     if (response) {
       
@@ -135,8 +146,8 @@ static int process_request(struct mg_connection *c,
       // Заполнение вариадических аргументов
       fill_va(va, size_va, numeric_number);
 
-      response = format_response(response, va);
-      // Заменяем сырой файл решения отформатированным
+      formatted_response = format_response(response, va);
+      // Формируем отформатированный файл решения
       if (response) {
         status_code = 200;
         ctype       = CONTENT_TYPE_HTML;
@@ -147,7 +158,8 @@ static int process_request(struct mg_connection *c,
   // Если запрашивается файл стилей
   else if (!mg_strcmp(hm->uri, mg_str("/styles.css"))) {
     
-    response = read_file(PATH_CSS_STYLES); // Читаем файл CSS
+    response = cache_file(cache, SENT_FILES_NUMBER,
+                          PATH_CSS_STYLES, read_file); // Читаем файл CSS
     if (response) {
       status_code = 200;
       ctype       = CONTENT_TYPE_CSS;
@@ -157,7 +169,8 @@ static int process_request(struct mg_connection *c,
   // Если запрашивается что-либо другое — возвращаем login.html
   else {
 
-    response = read_file(PATH_LOGIN_HTML);
+    response = cache_file(cache, SENT_FILES_NUMBER,
+                          PATH_LOGIN_HTML, read_file);
     // Загружаем страницу логина
     if (response) {
       status_code = 200;
@@ -169,14 +182,18 @@ static int process_request(struct mg_connection *c,
   // Если не было ошибок сервера — отправляем ответ клиенту
   if (error_code == ERR_INVALID_CREDENTIALS ||
       error_code == ERR_OK)
-    mg_http_reply(c, status_code, ctype, "%s", response);
+    mg_http_reply(c, status_code, ctype, "%s",
+                  formatted_response ? formatted_response : response);
   else
     mg_http_reply(c, status_code, "", "");
     // В случае внутренней ошибки сервера —
     // пустой ответ с кодом 500
 
-  free(response); // Освобождение выделенной памяти
-  return error_code; // Возврат кода ошибки
+  free(formatted_response);
+  // Освобождение выделенной памяти
+  // под отформатированный файл решения
+  return error_code;
+  // Возврат кода ошибки
 }
 
 // Основная функция-обработчик событий сервера
@@ -209,6 +226,9 @@ int main() {
   // символ INTR (с помощью сочетания клавиш Ctrl-c в терминале)
   signal(SIGTERM, signal_handler);
   // Сигнал SIGTERM, который по умолчанию отправляет команда kill 
+  
+  init_cache(cache, SENT_FILES_NUMBER);
+  // Инициализация кеша для HTML-шаблонов
 
   mg_mgr_init(&mgr); // Инициализация менеджера
   mg_http_listen(&mgr, server_address, main_fun, NULL);
@@ -221,6 +241,7 @@ int main() {
   // Основной цикл обработки событий с интервалом 1000 мс
   
   mg_mgr_free(&mgr);
+  clear_cache(cache, SENT_FILES_NUMBER);
   // Очистка ресурсов перед завершением
   MG_INFO(("\nВыход по сигналу %d", signal_status));
   // Выводим в стандартный поток вывода номер сигнала,

@@ -12,9 +12,6 @@ char* format_response(char* response,
                                  va[8], va[9], va[10], va[11],
                                  va[12], va[13], va[14], va[15],
                                  va[16], va[17]);
-  free(response);
-  // Освобождение выделенной памяти под
-  // неформатированный (сырой) файл решения
   return formatted;
 }
 

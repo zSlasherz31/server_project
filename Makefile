@@ -1,6 +1,6 @@
 CC       = gcc
 CFLAGS   = -Wall -Wextra
-SRCS     = main.c mongoose/mongoose.c input/input.c output/output.c
+SRCS     = main.c mongoose/mongoose.c input/input.c output/output.c cache/cache.c
 SRV_DIR  = ./server
 LOGS_DIR = $(SRV_DIR)/logs
 OUT      = $(SRV_DIR)/server.out
