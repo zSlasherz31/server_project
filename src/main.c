@@ -149,7 +149,8 @@ static int process_request(struct mg_connection *c,
 
       formatted_response = format_response(response, va);
       // Формируем отформатированный файл решения
-      if (response) {
+      
+      if (formatted_response) {
         status_code = HTTP_STATUS_CODE_OK;
         ctype       = CONTENT_TYPE_HTML;
         error_code  = ERR_OK;
